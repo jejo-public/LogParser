@@ -2,7 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -68,7 +68,7 @@ public class DataReader implements iSource {
   }
 
   private Map<String, String> createDataSet(final String[] fieldsInDataSet) {
-    final Map<String, String> dataSet = new HashMap<>();
+    final Map<String, String> dataSet = new LinkedHashMap<>();
     ACCEPTED_LOG_FIELDS.forEach(
         logField -> dataSet.put(logField, fieldsInDataSet[ACCEPTED_LOG_FIELDS.indexOf(logField)]));
     return dataSet;
