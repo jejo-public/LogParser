@@ -9,6 +9,8 @@ import java.util.Map;
 public class DataReader implements iSource {
 
   public static final String FILE_PATH = "C:/Arbeitsaufgabe/";
+  public static final String FILENAME = "Quelldaten.txt";
+
   public static final String LOG_SEPARATOR = ";";
 
   public static final String LOG_FIELD_SYSTEM = "SYSTEM";
@@ -20,7 +22,6 @@ public class DataReader implements iSource {
   public static final List<String> ACCEPTED_LOG_FIELDS = List
       .of(LOG_FIELD_SYSTEM, LOG_FIELD_COMPONENT, LOG_FIELD_IS_EXPIRED, LOG_FIELD_LOGIN_NAME,
           LOG_FIELD_LOGIN_PASSWORD);
-  public String fileName = "Quelldaten.txt";
 
   public DataReader() {
 
@@ -30,41 +31,57 @@ public class DataReader implements iSource {
   public List<Map<String, String>> readData() {
     try {
       final List<Map<String, String>> validDataSets = new ArrayList<>();
+      final List<String> inValidDataSets = new ArrayList<>();
 
-      int countDismissed = 0;
-      try (final BufferedReader bufferedReader = new BufferedReader(
-          new FileReader(FILE_PATH + fileName))) {
-        skipDescriptionLine(bufferedReader);
+      final int countDismissed = 0;
+      try (final BufferedReader inputFromFile = new BufferedReader(
+          new FileReader(FILE_PATH + FILENAME))) {
+        skipDescriptionLine(inputFromFile);
 
         String line;
-        while ((line = bufferedReader.readLine()) != null) {
+        while ((line = inputFromFile.readLine()) != null) {
           final String[] fieldsInDataSet = extractFields(line);
           if (fieldsInDataSet.length == ACCEPTED_LOG_FIELDS.size()) {
             validDataSets.add(createDataSet(fieldsInDataSet));
           } else {
-            countDismissed++;
+            inValidDataSets.add(line);
           }
         }
       }
 
-      printDismissedErrorMessage(countDismissed);
+      printInfoMessages(validDataSets, inValidDataSets);
       return validDataSets;
     } catch (final IOException e) {
-      printIoExceptionMessage();
+      printIoExceptionMessage(e.getMessage());
     }
     return null;
+  }
+
+  private void printInfoMessages(final List<Map<String, String>> validDataSets,
+      final List<String> inValidDataSets) {
+    System.out.println();
+    printValidCountMessage(validDataSets.size());
+    printInvalidCountErrorMessage(inValidDataSets.size());
+    System.out.println();
+    System.out.println("dismissed datasets: ");
+    inValidDataSets.forEach(System.out::println);
   }
 
   private String[] extractFields(final String line) {
     return line.split(LOG_SEPARATOR);
   }
 
-  private void printIoExceptionMessage() {
+  private void printIoExceptionMessage(final String exceptionMessage) {
     System.out.println("Error reading file with filePath: " + FILE_PATH);
+    System.out.println("Error message : " + exceptionMessage);
   }
 
-  private void printDismissedErrorMessage(final int countDismissed) {
-    System.out.println(countDismissed + " data entry(s) couldnt be read and were dismissed.");
+  private void printValidCountMessage(final int countDismissed) {
+    System.out.println(countDismissed + " dataset(s) could be read and are further processed.");
+  }
+
+  private void printInvalidCountErrorMessage(final int countDismissed) {
+    System.out.println(countDismissed + " dataset(s) couldnt be read and were dismissed.");
   }
 
   private Map<String, String> createDataSet(final String[] fieldsInDataSet) {

@@ -17,6 +17,7 @@ public class DataWriter implements iDataWriter {
   public static final String FILE_PATH_COMPONENT_SEPARATOR = "_";
   public static final String FILE_PATH_FILETYPE = ".txt";
   public static final String FILE_PATH_TIMESTAMP_FORMAT = "HH-mm-SS";
+
   Set<String> components;
   String system;
 

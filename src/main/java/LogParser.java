@@ -12,11 +12,14 @@ public class LogParser {
     final Set<String> components = cliArgsParser.getFilterComponents();
 
     final List<Map<String, String>> loadedDataSets = new DataReader().readData();
-    final List<Map<String, String>> filteredDataSets = new DataParser(system, components)
+    final List<Map<String, String>> filteredDataSets = new DataFilter(system, components)
         .filter(loadedDataSets);
     final DataWriter dataWriter = new DataWriter(system, components);
     dataWriter.writeData(filteredDataSets);
 
+    System.out.println();
+    System.out.println("Datasets written to file: " + filteredDataSets.size());
+    System.out.println();
     System.out.println(filteredDataSets);
   }
 }
