@@ -8,6 +8,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class DataWriter implements iDataWriter {
@@ -16,10 +17,10 @@ public class DataWriter implements iDataWriter {
   public static final String FILE_PATH_COMPONENT_SEPARATOR = "_";
   public static final String FILE_PATH_FILETYPE = ".txt";
   public static final String FILE_PATH_TIMESTAMP_FORMAT = "HH-mm-SS";
-  List<String> components;
+  Set<String> components;
   String system;
 
-  public DataWriter(final String system, final List<String> components) {
+  public DataWriter(final String system, final Set<String> components) {
     this.system = system;
     this.components = components;
   }

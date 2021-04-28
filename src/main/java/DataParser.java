@@ -1,13 +1,14 @@
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class DataParser {
 
   String filterForSystem;
-  List<String> filterForComponents;
+  Set<String> filterForComponents;
 
-  public DataParser(final String filterForSystem, final List<String> filterForComponents) {
+  public DataParser(final String filterForSystem, final Set<String> filterForComponents) {
     this.filterForSystem = filterForSystem;
     this.filterForComponents = filterForComponents;
   }
