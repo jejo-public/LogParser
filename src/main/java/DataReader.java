@@ -12,6 +12,8 @@ public class DataReader implements iSource {
   public static final String FILENAME = "Quelldaten.txt";
 
   public static final String LOG_SEPARATOR = ";";
+  public static final String LOG_BOOLEAN_STRING_REPRESENTATION_TRUE = "TRUE";
+  public static final String LOG_BOOLEAN_STRING_REPRESENTATION_FALSE = "FALSE";
 
   public static final String LOG_FIELD_SYSTEM = "SYSTEM";
   public static final String LOG_FIELD_COMPONENT = "COMPONENT";
@@ -42,7 +44,10 @@ public class DataReader implements iSource {
         while ((line = inputFromFile.readLine()) != null) {
           final String[] fieldsInDataSet = extractFields(line);
           if (fieldsInDataSet.length == ACCEPTED_LOG_FIELDS.size()) {
-            validDataSets.add(createDataSet(fieldsInDataSet));
+            final Map<String, String> dataSet = createDataSet(fieldsInDataSet);
+            if (isValidDataSet(dataSet)) {
+              validDataSets.add(createDataSet(fieldsInDataSet));
+            }
           } else {
             inValidDataSets.add(line);
           }
@@ -55,6 +60,11 @@ public class DataReader implements iSource {
       printIoExceptionMessage(e.getMessage());
     }
     return null;
+  }
+
+  private boolean isValidDataSet(final Map<String, String> dataSet) {
+    return dataSet.get(LOG_FIELD_IS_EXPIRED).equals(LOG_BOOLEAN_STRING_REPRESENTATION_FALSE)
+        || dataSet.get(LOG_FIELD_IS_EXPIRED).equals(LOG_BOOLEAN_STRING_REPRESENTATION_TRUE);
   }
 
   private void printInfoMessages(final List<Map<String, String>> validDataSets,
