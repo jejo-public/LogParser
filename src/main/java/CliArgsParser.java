@@ -12,7 +12,7 @@ public class CliArgsParser {
     this.cliArgs = args;
   }
 
-  public String getFilterSystem() {
+  public String getSystemFilter() {
     for (final String cliArgument : cliArgs) {
       final String searchString = DataReader.LOG_FIELD_SYSTEM + CLI_ARGS_SEPARATOR;
       final Pattern searchPattern = Pattern.compile("^" + searchString);
@@ -24,7 +24,7 @@ public class CliArgsParser {
     return null;
   }
 
-  public Set<String> getFilterComponents() {
+  public Set<String> geComponentFilters() {
     final Set<String> components = new HashSet<>();
     for (final String cliArgument : cliArgs) {
       final String searchString = DataReader.LOG_FIELD_COMPONENT + CLI_ARGS_SEPARATOR;

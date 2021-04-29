@@ -30,6 +30,14 @@ public class DataWriter implements iDataWriter {
   public void writeData(final List<Map<String, String>> dataToWrite) {
     final List<String> dataForFile = transformDataForFile(dataToWrite);
     writeDataToFile(dataForFile);
+    printInfoMessage(dataToWrite);
+  }
+
+  private void printInfoMessage(final List<Map<String, String>> dataToWrite) {
+    System.out.println();
+    System.out.println("Datasets written to file: " + dataToWrite.size());
+    System.out.println();
+    System.out.println(dataToWrite);
   }
 
   private void writeDataToFile(final List<String> dataForFile) {
